@@ -17,7 +17,7 @@ interface SuperheroService {
     companion object {
         fun getInstance(): com.example.superhero.data.SuperheroService {
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://www.superheroapi.com/api.php/7252591128153666/")
+                .baseUrl("https://www.superheroapi.com/api.php/7570e129258a0c339e491df145615214/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
