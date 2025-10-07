@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.superhero.data.Superhero
 import com.squareup.picasso.Picasso
+import com.example.superhero.R
 
 class SuperheroAdapter(
     var items: List<Superhero>,
