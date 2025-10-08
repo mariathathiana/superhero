@@ -1,5 +1,6 @@
 package com.example.superhero.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import androidx.activity.enableEdgeToEdge
@@ -12,38 +13,40 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.superhero.R
 import com.example.superhero.adapters.SuperheroAdapter
 import com.example.superhero.data.Superhero
-import com.example.superhero.data.SuperheroService
+import com.example.superhero.data.GameService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {lateinit var recyclerView: RecyclerView
+class MainActivity : AppCompatActivity() { lateinit var binding: ActivityMainBinding
 
-    lateinit var adapter: SuperheroAdapter
+    lateinit var adapter: GameAdapter
 
-    var superheroList: List<Superhero> = emptyList()
+    var filteredGameList: List<Game> = emptyList()
+    var originalGameList: List<Game> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        recyclerView = findViewById(R.id.recyclerView)
-
-        adapter = SuperheroAdapter(superheroList) {
-            // He hecho click en superheroe
-            superheroList[it]
+        adapter = GameAdapter(filteredGameList) { position ->
+            val superhero = filteredGameList[position]
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("SUPERHERO_ID", superhero.id)
+            startActivity(intent)
         }
 
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = GridLayoutManager(this, 1)
 
-        searchSuperheroes("a")
+        getGameList()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -53,25 +56,30 @@ class MainActivity : AppCompatActivity() {lateinit var recyclerView: RecyclerVie
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                searchSuperheroes(query)
-                return true
+                return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                return false
+                filteredGameList = originalGameList.filter { it.title.contains(newText, true) }
+                adapter.updateItems(filteredGameList)
+                return true
             }
         })
 
         return true
     }
 
-    fun searchSuperheroes(query: String) {
+    fun getGameList() {
         CoroutineScope(Dispatchers.IO).launch {
-            val service = SuperheroService.getInstance()
-            val result = service.findSuperheroesByName(query)
-            superheroList = result.results
-            CoroutineScope(Dispatchers.Main).launch {
-                adapter.updateItems(superheroList)
+            try {
+                val service = GameService.getInstance()
+                originalGameList = service.getAllGames()
+                filteredGameList = originalGameList
+                CoroutineScope(Dispatchers.Main).launch {
+                    adapter.updateItems(filteredGameList)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
