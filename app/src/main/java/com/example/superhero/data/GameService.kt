@@ -21,7 +21,7 @@ interface GameService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
-            return retrofit.create(com.example.superhero.data.GameService::class.java)
+            return retrofit.create(GameService::class.java)
         }
     }
 
