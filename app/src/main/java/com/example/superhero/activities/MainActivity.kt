@@ -11,14 +11,19 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.superhero.R
-import com.example.superhero.adapters.SuperheroAdapter
-import com.example.superhero.data.Superhero
+import com.example.superhero.adapters.GameAdapter
+
+import com.example.superhero.data.Game
+
 import com.example.superhero.data.GameService
+import com.example.superhero.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() { lateinit var binding: ActivityMainBinding
+class MainActivity : AppCompatActivity() {
+
+    lateinit var binding: ActivityMainBinding
 
     lateinit var adapter: GameAdapter
 

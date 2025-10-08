@@ -12,10 +12,9 @@
         android:layout_margin="8dp">
 
         <ImageView
-            android:id="@+id/avatarImageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_launcher_background"
+            android:id="@+id/thumbnailImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"/>
 
         <TextView

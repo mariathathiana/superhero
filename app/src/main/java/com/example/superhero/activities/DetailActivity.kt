@@ -7,10 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.superhero.data.Game
+import com.example.superhero.data.GameService
+import com.example.superhero.databinding.ActivityDetailBinding
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import com.example.superhero.R
 
 class DetailActivity : AppCompatActivity(){
     lateinit var binding: ActivityDetailBinding

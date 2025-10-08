@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.superhero.data.Game
 import com.squareup.picasso.Picasso
 import com.example.superhero.R
+import com.example.superhero.databinding.ItemGameBinding
 
 class GameAdapter(
     var items: List<Game>,

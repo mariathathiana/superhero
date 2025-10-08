@@ -9,10 +9,10 @@ import retrofit2.http.Query
 interface GameService {
 
     @GET("games")
-    suspend fun findSuperheroesByName(): SuperheroResponse
+    suspend fun getAllGames(): List<Game>
 
     @GET("game")
-    suspend fun getSuperheroById(@Query("d") id: String): Superhero
+    suspend fun getGameById(@Query("id") id: String): Game
 
     companion object {
         fun getInstance(): com.example.superhero.data.GameService {
